@@ -2,10 +2,16 @@ package com.example.family_tree.Database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "family_tree_database.db";
+
+    private static final String TAG = "DatabaseHelper";
+
+    private static final String DROP_TABLE = "DROP TABLE IF EXISTS ";
 
     // Table names
     private static final String FAMILY_MEMBER = "FamilyMember";
@@ -118,15 +124,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // Enable the foreign keys in SQLite
-        db.execSQL("PRAGMA foreign_keys = ON");
+        try {
+            // Enable the foreign keys in SQLite
+            db.execSQL("PRAGMA foreign_keys = ON");
 
-        // create tables
-        db.execSQL(CREATE_FAMILY_MEMBER_TABLE);
+            // create tables
+            db.execSQL(CREATE_FAMILY_MEMBER_TABLE);
+            db.execSQL(CREATE_MEDICAL_HISTORY_TABLE);
+            db.execSQL(CREATE_CONTACT_INFORMATION_TABLE);
+            db.execSQL(CREATE_PHONE_NUMBER_TABLE);
+            db.execSQL(CREATE_EMAIL_TABLE);
+            db.execSQL(CREATE_ADDRESS_TABLE);
+            Log.i(TAG, "Created DB");
+        } catch (SQLiteException e) {
+            Log.e(TAG, e.toString());
+        }
     }
 
     @Override
     public void onUpgrade (SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        try {
+            db.execSQL(DROP_TABLE + FAMILY_MEMBER);
+            db.execSQL(DROP_TABLE + MEDICAL_HISTORY);
+            db.execSQL(DROP_TABLE + CONTACT_INFORMATION);
+            db.execSQL(DROP_TABLE + PHONE_NUMBER);
+            db.execSQL(DROP_TABLE + EMAIL);
+            db.execSQL(DROP_TABLE + ADDRESS);
+            onCreate(db);
+            Log.i(TAG, "Upgraded DB");
+        } catch (SQLiteException e) {
+            Log.e(TAG, e.toString());
+        }
     }
 }
