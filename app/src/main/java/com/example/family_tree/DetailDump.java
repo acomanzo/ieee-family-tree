@@ -1,5 +1,8 @@
 package com.example.family_tree;
 
+import com.example.family_tree.Models.Address;
+import com.example.family_tree.Models.Person;
+
 import java.util.ArrayList;
 
 public class DetailDump {

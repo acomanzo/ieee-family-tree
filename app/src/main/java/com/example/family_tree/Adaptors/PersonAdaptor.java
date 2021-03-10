@@ -12,9 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.family_tree.Activities.MainActivity;
-import com.example.family_tree.Address;
+import com.example.family_tree.Models.Address;
 import com.example.family_tree.DetailDump;
-import com.example.family_tree.Person;
+import com.example.family_tree.Models.Person;
 import com.example.family_tree.R;
 import com.google.android.material.textfield.TextInputEditText;
 

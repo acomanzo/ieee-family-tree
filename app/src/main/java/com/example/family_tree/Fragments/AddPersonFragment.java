@@ -11,8 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
-import com.example.family_tree.Address;
-import com.example.family_tree.Person;
+import com.example.family_tree.Models.Address;
+import com.example.family_tree.Models.Person;
 import com.example.family_tree.R;
 import com.google.android.material.textfield.TextInputEditText;
 

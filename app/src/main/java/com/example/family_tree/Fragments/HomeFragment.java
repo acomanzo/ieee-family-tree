@@ -16,7 +16,7 @@ import android.widget.SearchView;
 import com.example.family_tree.Activities.MainActivity;
 import com.example.family_tree.Adaptors.PersonAdaptor;
 import com.example.family_tree.DetailDump;
-import com.example.family_tree.Person;
+import com.example.family_tree.Models.Person;
 import com.example.family_tree.R;
 
 import java.util.ArrayList;
