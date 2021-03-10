@@ -1,14 +1,11 @@
-package com.example.family_tree;
+package com.example.family_tree.Models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.example.family_tree.Address;
 
 import java.util.ArrayList;
-
-import androidx.annotation.Nullable;
 
 public class Person implements Parcelable {
 
