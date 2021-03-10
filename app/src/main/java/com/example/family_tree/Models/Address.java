@@ -1,4 +1,4 @@
-package com.example.family_tree;
+package com.example.family_tree.Models;
 
 public class Address {
     private String streetNumber;
