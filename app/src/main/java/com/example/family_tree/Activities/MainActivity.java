@@ -18,6 +18,7 @@ import android.view.Window;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.example.family_tree.Database.DatabaseHelper;
 import com.example.family_tree.Fragments.AddPersonFragment;
 import com.example.family_tree.Fragments.HomeFragment;
 import com.example.family_tree.R;
@@ -40,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements AddPersonFragment
 
     private String currentFragTag;
 
+    private DatabaseHelper databaseHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
@@ -48,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements AddPersonFragment
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        databaseHelper = new DatabaseHelper(this);
 
         // make the home fragment our initial fragment
         getSupportFragmentManager().beginTransaction().add(R.id.host_fragment, new HomeFragment(), HOME_FRAG_TAG).commit();
