@@ -1,15 +1,17 @@
 package com.example.family_tree.Database;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-public class DatabaseHelper extends SQLiteOpenHelper {
+public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "family_tree_database.db";
 
-    private static final String TAG = "DatabaseHelper";
+    private static final String TAG = "SQLiteDatabaseHelper";
 
     private static final String DROP_TABLE = "DROP TABLE IF EXISTS ";
 
@@ -113,13 +115,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     "FOREIGN KEY (" + ADDRESS_COLUMN_CONTACT_INFORMATION_ID + ") REFERENCES " + CONTACT_INFORMATION + "(" + CONTACT_INFORMATION_COLUMN_ID + ")" +
                     ");";
 
-    public DatabaseHelper(Context context) {
+    public SQLiteDatabaseHelper(Context context) {
         this(context, DATABASE_NAME, null, 1);
     }
 
-    public DatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+    public SQLiteDatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
-        SQLiteDatabase db = this.getWritableDatabase();
     }
 
     @Override
@@ -155,5 +156,55 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } catch (SQLiteException e) {
             Log.e(TAG, e.toString());
         }
+    }
+
+    public boolean insertFamilyMember(String firstName, String lastName, String gender) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(FAMILY_MEMBER_COLUMN_FIRST_NAME, firstName);
+        contentValues.put(FAMILY_MEMBER_COLUMN_LAST_NAME, lastName);
+        contentValues.put(FAMILY_MEMBER_COLUMN_GENDER, gender);
+        long result = db.insert(FAMILY_MEMBER, null, contentValues);
+        if (result == -1) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    public Cursor getAllFamilyMembers() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        final String QUERY = "SELECT * FROM " + FAMILY_MEMBER + "";
+        Cursor res = db.rawQuery(QUERY, null);
+
+        /*if (res.getCount() == 0) {
+            Log.e(TAG, "error querying family members");
+            return null;
+        }
+        while (res.moveToNext()) {
+            res.getInt(0);
+            res.getString(1);
+            res.getString(2);
+            res.getString(3);
+        }*/
+
+        return res;
+    }
+
+    public boolean updateFamilyMember(String id, String firstName, String lastName, String gender) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(FAMILY_MEMBER_COLUMN_ID, id);
+        values.put(FAMILY_MEMBER_COLUMN_FIRST_NAME, firstName);
+        values.put(FAMILY_MEMBER_COLUMN_LAST_NAME, lastName);
+        values.put(FAMILY_MEMBER_COLUMN_GENDER, gender);
+        db.update(FAMILY_MEMBER, values, "ID = ?", new String[] { id });
+        return true;
+    }
+
+    public int deleteFamilyMember(String id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(FAMILY_MEMBER, "ID = ?", new String[] { id });
     }
 }
