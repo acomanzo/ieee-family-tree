@@ -1,10 +1,14 @@
 package com.example.family_tree.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,10 +20,13 @@ import android.widget.SearchView;
 import com.example.family_tree.Activities.MainActivity;
 import com.example.family_tree.Adaptors.PersonAdaptor;
 import com.example.family_tree.DetailDump;
-import com.example.family_tree.Models.Person;
+import com.example.family_tree.Models.FamilyMember;
+import com.example.family_tree.Adaptors.Person;
 import com.example.family_tree.R;
+import com.example.family_tree.ViewModels.FamilyMemberViewModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,6 +42,8 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
     private ArrayList<Person> detailJson;
 
     private SearchView searchView;
+
+    private FamilyMemberViewModel mFamilyMemberViewModel;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -79,7 +88,9 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
                 Person person = (Person) result.get("newPersonKey");
-                ((PersonAdaptor) mAdaptor).add(person);
+                //((PersonAdaptor) mAdaptor).add(person);
+                FamilyMember familyMember = new FamilyMember(person.getFirstName(), person.getFirstName(), person.getGender());
+                mFamilyMemberViewModel.insert(familyMember);
             }
         });
     }
@@ -95,14 +106,34 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
 
         layoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(layoutManager);
+//
+//        // removes blinks
+//        //((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
+//
+//        //DetailDump.make();
+//
+//        //detailJson = DetailDump.getData();
+//        mAdaptor = new PersonAdaptor(detailJson, (MainActivity) getActivity());
+//
+        mAdaptor = new PersonAdaptor((MainActivity) getActivity(), new OnFamilyMemberItemClickedListener());
 
-        // removes blinks
-        //((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
+        mFamilyMemberViewModel = ViewModelProviders.of(getActivity()).get(FamilyMemberViewModel.class);
 
-        DetailDump.make();
+        // listen for changes in mAllFamilyMembers in the ViewModel
+        mFamilyMemberViewModel.getAllFamilyMembers().observe(getViewLifecycleOwner(), new Observer<List<FamilyMember>>() {
+            @Override
+            public void onChanged(@Nullable final List<FamilyMember> familyMembers) {
+                List<Person> people = new ArrayList<>();
+                for (FamilyMember familyMember : familyMembers) {
+                    String firstName = familyMember.getFirstName();
+                    String lastName = familyMember.getLastName();
+                    String gender = familyMember.getGender();
+                    people.add(new Person(firstName, lastName, "0", gender));
+                }
+                mAdaptor.setDataset(people);
+            }
+        });
 
-        detailJson = DetailDump.getData();
-        mAdaptor = new PersonAdaptor(detailJson, (MainActivity) getActivity());
         recyclerView.setAdapter(mAdaptor);
 
         searchView = getActivity().findViewById(R.id.home_search);
@@ -121,5 +152,34 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
     public boolean onQueryTextChange(String newText) {
         mAdaptor.getFilter().filter(newText);
         return false;
+    }
+
+//    /**
+//     * Switches fragment to a detail view when a user clicks on a view holder.
+//     */
+//    private class FamilyMemberItemOnClickListener implements View.OnClickListener {
+//
+//        @Override
+//        public void onClick(View v) {
+//            FamilyMemberDetailFragment nextFragment = new FamilyMemberDetailFragment();
+//            getActivity().getSupportFragmentManager().beginTransaction()
+//                    .replace(R.id.host_fragment, nextFragment, "familyMemberDetailViewStart")
+//                    .commit();
+//        }
+//    }
+
+    public class OnFamilyMemberItemClickedListener {
+        public void onClick(int position) {
+            Bundle bundle = new Bundle();
+            bundle.putInt("familyMemberPosition", position);
+            getParentFragmentManager().setFragmentResult("familyMemberPosition", bundle);
+
+            FamilyMemberDetailFragment nextFragment = new FamilyMemberDetailFragment();
+            nextFragment.setArguments(bundle);
+
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.host_fragment, nextFragment, "familyMemberDetailViewStart")
+                    .commit();
+        }
     }
 }

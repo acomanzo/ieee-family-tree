@@ -1,35 +1,38 @@
-package com.example.family_tree.Models;
+package com.example.family_tree.Adaptors;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.example.family_tree.Address;
-
 import java.util.ArrayList;
+
+import androidx.annotation.NonNull;
 
 public class Person implements Parcelable {
 
-    private ArrayList<Person> children;
-    private boolean expanded;
-    private Address address;
-    private int image;
+    private int familyMemberId;
     private String firstName;
     private String lastName;
+    private String gender;
+
     private String age;
+
+    private ArrayList<Person> children;
+    private boolean expanded;
+    private int image;
 
     private int futureRelativePosition;
     private String futureRelativeRelationship;
 
-    public Person(String firstName, String lastName, String age, Address address) {
-        this(firstName, lastName, age, address, -1, null);
+    public Person(@NonNull String firstName, @NonNull String lastName, @NonNull String age, @NonNull String gender) {
+        this(firstName, lastName, age, gender, -1, null);
     }
 
-    public Person(String firstName, String lastName, String age, Address address, int futureRelativePosition, String futureRelativeRelationship) {
+    public Person(@NonNull String firstName, @NonNull String lastName, @NonNull String age, @NonNull String gender, int futureRelativePosition, String futureRelativeRelationship) {
         children = new ArrayList<>();
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
-        this.address = address;
+        this.gender = gender;
 
         this.futureRelativePosition = futureRelativePosition;
         this.futureRelativeRelationship = futureRelativeRelationship;
@@ -45,8 +48,8 @@ public class Person implements Parcelable {
         String state = in.readString();
         String country = in.readString();
         String zipcode = in.readString();
-        Address address = new Address(streetNumber, streetName, townCity, state, country, zipcode);
-        this.address = address;
+        //Address address = new Address(streetNumber, streetName, townCity, state, country, zipcode);
+        //this.address = address;
 
         children = new ArrayList<>();
 
@@ -78,9 +81,9 @@ public class Person implements Parcelable {
         return expanded;
     }
 
-    public Address getAddress() {
+    /*public Address getAddress() {
         return address;
-    }
+    }*/
 
     public int getImage() {
         return image;
@@ -109,12 +112,12 @@ public class Person implements Parcelable {
         dest.writeString(firstName);
         dest.writeString(lastName);
         dest.writeString(age);
-        dest.writeString(address.getStreetNumber());
-        dest.writeString(address.getStreetName());
-        dest.writeString(address.getTownCity());
-        dest.writeString(address.getState());
-        dest.writeString(address.getCountry());
-        dest.writeString(address.getZipcode());
+//        dest.writeString(address.getStreetNumber());
+//        dest.writeString(address.getStreetName());
+//        dest.writeString(address.getTownCity());
+//        dest.writeString(address.getState());
+//        dest.writeString(address.getCountry());
+//        dest.writeString(address.getZipcode());
         dest.writeInt(futureRelativePosition);
         dest.writeString(futureRelativeRelationship);
     }
@@ -133,6 +136,10 @@ public class Person implements Parcelable {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public String getGender() {
+        return gender;
     }
 
     public String getAge() {

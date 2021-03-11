@@ -8,9 +8,7 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "FamilyMember")
 public class FamilyMember {
 
-    @PrimaryKey
-    @NonNull
-    @ColumnInfo(name = "FamilyMemberId")
+    @PrimaryKey(autoGenerate = true)
     private int familyMemberId;
 
     @NonNull
@@ -22,12 +20,18 @@ public class FamilyMember {
     @NonNull
     private String gender;
 
-    public FamilyMember(@NonNull int familyMemberId, @NonNull String firstName, @NonNull String lastName, @NonNull String gender) {
-        this.familyMemberId = familyMemberId;
+    public FamilyMember(@NonNull String firstName, @NonNull String lastName, @NonNull String gender) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
     }
+
+//    public FamilyMember(int familyMemberId, @NonNull String firstName, @NonNull String lastName, @NonNull String gender) {
+//        this.familyMemberId = familyMemberId;
+//        this.firstName = firstName;
+//        this.lastName = lastName;
+//        this.gender = gender;
+//    }
 
     public int getFamilyMemberId() {
         return familyMemberId;
@@ -43,5 +47,9 @@ public class FamilyMember {
 
     public String getGender() {
         return gender;
+    }
+
+    public void setFamilyMemberId(int familyMemberId) {
+        this.familyMemberId = familyMemberId;
     }
 }

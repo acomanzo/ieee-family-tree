@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 
 import com.example.family_tree.Models.Address;
-import com.example.family_tree.Models.Person;
+import com.example.family_tree.Adaptors.Person;
 import com.example.family_tree.R;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -113,13 +113,17 @@ public class AddPersonFragment extends Fragment {
             String country = ((TextInputEditText) view.findViewById(R.id.new_person_country)).getText().toString();
             String zipcode = ((TextInputEditText) view.findViewById(R.id.new_person_zipcode)).getText().toString();
 
-            Address address = new Address(streetNumber, streetName, townCity, state, country, zipcode);
+            //Address address = new Address(streetNumber, streetName, townCity, state, country, zipcode);
+
+            String gender = ((TextInputEditText) view.findViewById(R.id.new_person_gender)).getText().toString();
 
             String relationship = null;
             if (spinner.getVisibility() == View.VISIBLE) {
                 relationship = spinner.getSelectedItem().toString();
             }
-            Person person = new Person(firstName, lastName, age, address, finalOldRelativePosition, relationship);
+            //Person person = new Person(firstName, lastName, age, address, finalOldRelativePosition, relationship);
+
+            Person person = new Person(firstName, lastName, "0", gender, finalOldRelativePosition, relationship);
 
             // if you wanted to communicate to the HomeFragment that we updated the adaptor,
             // who would then add the person to the adaptor, then you should do this.

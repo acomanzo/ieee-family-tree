@@ -7,6 +7,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -18,15 +20,19 @@ import android.view.Window;
 import android.widget.SearchView;
 import android.widget.Toast;
 
-import com.example.family_tree.Database.SQLiteDatabaseHelper;
 import com.example.family_tree.Fragments.AddPersonFragment;
+import com.example.family_tree.Fragments.FamilyMemberDetailFragment;
 import com.example.family_tree.Fragments.HomeFragment;
+import com.example.family_tree.Models.FamilyMember;
 import com.example.family_tree.R;
+import com.example.family_tree.ViewModels.FamilyMemberViewModel;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements AddPersonFragment.OnPersonItemAddedListener {
 
@@ -41,8 +47,6 @@ public class MainActivity extends AppCompatActivity implements AddPersonFragment
 
     private String currentFragTag;
 
-    private SQLiteDatabaseHelper databaseHelper;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
@@ -51,8 +55,6 @@ public class MainActivity extends AppCompatActivity implements AddPersonFragment
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        databaseHelper = new SQLiteDatabaseHelper(this);
 
         // make the home fragment our initial fragment
         getSupportFragmentManager().beginTransaction().add(R.id.host_fragment, new HomeFragment(), HOME_FRAG_TAG).commit();
@@ -164,6 +166,9 @@ public class MainActivity extends AppCompatActivity implements AddPersonFragment
         if (fragment instanceof AddPersonFragment) {
             AddPersonFragment addPersonFragment = (AddPersonFragment) fragment;
             addPersonFragment.setOnPersonItemAddedListener(this);
+        }
+        if (fragment instanceof FamilyMemberDetailFragment) {
+
         }
     }
 

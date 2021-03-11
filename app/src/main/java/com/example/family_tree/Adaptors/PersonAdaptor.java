@@ -1,10 +1,12 @@
 package com.example.family_tree.Adaptors;
 
+import android.content.Intent;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -12,9 +14,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.family_tree.Activities.MainActivity;
+import com.example.family_tree.Fragments.HomeFragment;
 import com.example.family_tree.Models.Address;
 import com.example.family_tree.DetailDump;
-import com.example.family_tree.Models.Person;
 import com.example.family_tree.R;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -26,9 +28,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class PersonAdaptor extends RecyclerView.Adapter<PersonAdaptor.MyViewHolder> implements Filterable {
-    private ArrayList<Person> mDataset;
+    private List<Person> mDataset;
     private MainActivity mainActivity;
     private List<Person> mDatasetFiltered;
+    //private View.OnClickListener onClickListener;
+    HomeFragment.OnFamilyMemberItemClickedListener onClickListener;
 
     @Override
     public Filter getFilter() {
@@ -76,7 +80,10 @@ public class PersonAdaptor extends RecyclerView.Adapter<PersonAdaptor.MyViewHold
         private TextInputEditText town;
         private TextInputEditText state;
         private TextInputEditText zipcode;
+        private TextInputEditText gender;
         private TextView descendants;
+
+        private Button updateButton;
         private Button addRelativeButton;
 
         private MainActivity mainActivity;
@@ -93,7 +100,10 @@ public class PersonAdaptor extends RecyclerView.Adapter<PersonAdaptor.MyViewHold
             town = itemView.findViewById(R.id.person_town);
             state = itemView.findViewById(R.id.person_state);
             zipcode = itemView.findViewById(R.id.person_zipcode);
+            gender = itemView.findViewById(R.id.person_gender);
             descendants = itemView.findViewById(R.id.person_descendants);
+
+            updateButton = itemView.findViewById(R.id.update_button);
             addRelativeButton = itemView.findViewById(R.id.add_relationship);
 
             this.mainActivity = mainActivity;
@@ -108,17 +118,18 @@ public class PersonAdaptor extends RecyclerView.Adapter<PersonAdaptor.MyViewHold
 
             String name = person.getFirstName() + " " + person.getLastName();
             personName.setText(name);
-            Address address = person.getAddress();
-            streetNumber.setText(address.getStreetNumber());
-            configureTextEdit(streetNumber, "streetNumber");
-            streetName.setText(address.getStreetName());
-            configureTextEdit(streetName, "streetName");
-            town.setText(address.getTownCity());
-            configureTextEdit(town, "townCity");
-            state.setText(address.getState());
-            configureTextEdit(state, "state");
-            zipcode.setText(address.getZipcode());
-            configureTextEdit(zipcode, "zipcode");
+//            Address address = person.getAddress();
+//            streetNumber.setText(address.getStreetNumber());
+//            configureTextEdit(streetNumber, "streetNumber");
+//            streetName.setText(address.getStreetName());
+//            configureTextEdit(streetName, "streetName");
+//            town.setText(address.getTownCity());
+//            configureTextEdit(town, "townCity");
+//            state.setText(address.getState());
+//            configureTextEdit(state, "state");
+//            zipcode.setText(address.getZipcode());
+//            configureTextEdit(zipcode, "zipcode");
+            gender.setText(person.getGender());
 
             ArrayList<Person> children = person.getChildren();
             if (children.size() > 0) {
@@ -131,6 +142,18 @@ public class PersonAdaptor extends RecyclerView.Adapter<PersonAdaptor.MyViewHold
             } else {
                 descendants.setText("No children.");
             }
+
+            updateButton.setOnClickListener(v -> {
+                String updatedFirstName = personName.getText().toString();
+                String updatedStreetNumber = streetNumber.getText().toString();
+                String updatedStreetName = streetName.getText().toString();
+                String updatedTown = town.getText().toString();
+                String updatedState = state.getText().toString();
+                String updatedZipcode = zipcode.getText().toString();
+                String updatedGender = gender.getText().toString();
+
+
+            });
 
             addRelativeButton.setOnClickListener(v -> {
                 int position = getAdapterPosition();
@@ -152,22 +175,24 @@ public class PersonAdaptor extends RecyclerView.Adapter<PersonAdaptor.MyViewHold
                             // the user is done typing
                             switch (field) {
                                 case "streetNumber":
-                                    DetailDump.setAddressStreetNumber(getAdapterPosition(), v.getText().toString());
+                                    //DetailDump.setAddressStreetNumber(getAdapterPosition(), v.getText().toString());
                                     break;
                                 case "streetName":
-                                    DetailDump.setAddressStreetName(getAdapterPosition(), v.getText().toString());
+                                    //DetailDump.setAddressStreetName(getAdapterPosition(), v.getText().toString());
                                     break;
                                 case "townCity":
-                                    DetailDump.setAddressTownCity(getAdapterPosition(), v.getText().toString());
+                                    //DetailDump.setAddressTownCity(getAdapterPosition(), v.getText().toString());
                                     break;
                                 case "state":
-                                    DetailDump.setAddressState(getAdapterPosition(), v.getText().toString());
+                                    //DetailDump.setAddressState(getAdapterPosition(), v.getText().toString());
                                     break;
                                 case "country":
-                                    DetailDump.setAddressCountry(getAdapterPosition(), v.getText().toString());
+                                    //DetailDump.setAddressCountry(getAdapterPosition(), v.getText().toString());
                                     break;
                                 case "zipcode":
-                                    DetailDump.setAddressZipcode(getAdapterPosition(), v.getText().toString());
+                                    //DetailDump.setAddressZipcode(getAdapterPosition(), v.getText().toString());
+                                    break;
+                                case "gender":
                                     break;
                             }
 
@@ -181,10 +206,17 @@ public class PersonAdaptor extends RecyclerView.Adapter<PersonAdaptor.MyViewHold
         }
     }
 
-    public PersonAdaptor(ArrayList<Person> mDataset, MainActivity mainActivity) {
-        this.mDataset = mDataset;
-        this.mDatasetFiltered = mDataset;
+//    public PersonAdaptor(ArrayList<Person> mDataset, MainActivity mainActivity) {
+//        this.mDataset = mDataset;
+//        this.mDatasetFiltered = mDataset;
+//        this.mainActivity = mainActivity;
+//    }
+
+    public PersonAdaptor(MainActivity mainActivity, HomeFragment.OnFamilyMemberItemClickedListener onClickListener) {
+//        this.mDataset = mDataset;
+//        this.mDatasetFiltered = mDataset;
         this.mainActivity = mainActivity;
+        this.onClickListener = onClickListener;
     }
 
     @NonNull
@@ -201,42 +233,57 @@ public class PersonAdaptor extends RecyclerView.Adapter<PersonAdaptor.MyViewHold
         Person person = mDatasetFiltered.get(position);
         holder.bind(person);
 
-        holder.itemView.setOnClickListener(v -> {
-            boolean expanded = person.isExpanded();
-            person.setExpanded(!expanded);
-            notifyItemChanged(position);
-//            boolean show = toggleLayout(!person.isExpanded(), v, holder.subItem);
-//            person.setExpanded(show);
+//        holder.itemView.setOnClickListener(v -> {
+//            boolean expanded = person.isExpanded();
+//            person.setExpanded(!expanded);
 //            notifyItemChanged(position);
+////            boolean show = toggleLayout(!person.isExpanded(), v, holder.subItem);
+////            person.setExpanded(show);
+////            notifyItemChanged(position);
+//        });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickListener.onClick(position);
+            }
         });
     }
 
     @Override
     public int getItemCount() {
         //return mDataset.size();
-        return mDatasetFiltered.size();
-    }
-
-    public void add(Person person) {
-        int position = person.getFutureRelativePosition();
-        if (position != -1) {
-            String relationship = person.getFutureRelativeRelationship();
-            switch (relationship) {
-                case "Parent":
-                    person.addChild(mDataset.get(position));
-                    break;
-                case "Child":
-                    mDataset.get(position).addChild(person);
-                    break;
-            }
-            notifyItemChanged(position);
+        if (mDataset != null) {
+            return mDatasetFiltered.size();
         }
-        DetailDump.addData(person);
-        //mDataset.add(person);
-        //notifyItemInserted(mDataset.size() - 1);
-        //notifyItemChanged();
-
+        else return 0;
     }
 
+//    public void add(Person person) {
+//        int position = person.getFutureRelativePosition();
+//        if (position != -1) {
+//            String relationship = person.getFutureRelativeRelationship();
+//            switch (relationship) {
+//                case "Parent":
+//                    person.addChild(mDataset.get(position));
+//                    break;
+//                case "Child":
+//                    mDataset.get(position).addChild(person);
+//                    break;
+//            }
+//            notifyItemChanged(position);
+//        }
+//        DetailDump.addData(person);
+//
+//
+//        //mDataset.add(person);
+//        //notifyItemInserted(mDataset.size() - 1);
+//        //notifyItemChanged();
+//
+//    }
 
+    public void setDataset(List<Person> people) {
+        mDataset = people;
+        mDatasetFiltered = people;
+        notifyDataSetChanged();
+    }
 }

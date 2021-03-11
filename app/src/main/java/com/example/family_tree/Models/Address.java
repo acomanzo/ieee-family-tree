@@ -1,72 +1,86 @@
 package com.example.family_tree.Models;
 
-public class Address {
-    private String streetNumber;
-    private String streetName;
-    private String townCity;
-    private String state;
-    private String country;
-    private String zipcode;
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.PrimaryKey;
 
-    public Address(String streetNumber, String streetName, String townCity, String state, String country, String zipcode) {
-        this.streetNumber = streetNumber;
+@Entity(foreignKeys = {@ForeignKey(
+        entity = FamilyMember.class,
+        parentColumns = "familyMemberId",
+        childColumns = "familyMemberId",
+        onDelete = ForeignKey.CASCADE
+)})
+public class Address {
+
+    @PrimaryKey
+    @NonNull
+    private int addressId;
+
+    @NonNull
+    private int familyMemberId;
+
+    @NonNull
+    private int houseNumber;
+
+    @NonNull
+    private String streetName;
+
+    private String extra;
+
+    @NonNull
+    private String city;
+
+    @NonNull
+    private String state;
+
+    @NonNull
+    private int zipcode;
+
+    public Address(@NonNull int addressId, @NonNull int familyMemberId, @NonNull int houseNumber, @NonNull String streetName, String extra, @NonNull String city, @NonNull String state, @NonNull int zipcode) {
+        this.addressId = addressId;
+        this.familyMemberId = familyMemberId;
+        this.houseNumber = houseNumber;
         this.streetName = streetName;
-        this.townCity = townCity;
+        this.city = city;
         this.state = state;
-        this.country = country;
         this.zipcode = zipcode;
     }
 
-    public String getStreetNumber() {
-        return streetNumber;
+    public int getAddressId() {
+        return addressId;
+    }
+
+    public int getFamilyMemberId() {
+        return familyMemberId;
+    }
+
+    public int getHouseNumber() {
+        return houseNumber;
     }
 
     public String getStreetName() {
         return streetName;
     }
 
-    public String getTownCity() {
-        return townCity;
+    public String getExtra() {
+        return extra;
+    }
+
+    public String getCity() {
+        return city;
     }
 
     public String getState() {
         return state;
     }
 
-    public String getCountry() {
-        return country;
-    }
-
-    public String getZipcode() {
+    public int getZipcode() {
         return zipcode;
-    }
-
-    public void setStreetNumber(String streetNumber) {
-        this.streetNumber = streetNumber;
-    }
-
-    public void setStreetName(String streetName) {
-        this.streetName = streetName;
-    }
-
-    public void setTownCity(String townCity) {
-        this.townCity = townCity;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public void setZipcode(String zipcode) {
-        this.zipcode = zipcode;
     }
 
     @Override
     public String toString() {
-        return streetNumber + " " + streetName + ", " + townCity + ", " + state + " " + zipcode;
+        return houseNumber + " " + streetName + ", " + city + ", " + state + " " + zipcode;
     }
 }
