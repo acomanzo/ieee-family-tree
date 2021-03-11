@@ -3,6 +3,7 @@ package com.example.family_tree.Models;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "FamilyMember")
@@ -26,12 +27,13 @@ public class FamilyMember {
         this.gender = gender;
     }
 
-//    public FamilyMember(int familyMemberId, @NonNull String firstName, @NonNull String lastName, @NonNull String gender) {
-//        this.familyMemberId = familyMemberId;
-//        this.firstName = firstName;
-//        this.lastName = lastName;
-//        this.gender = gender;
-//    }
+    @Ignore
+    public FamilyMember(int familyMemberId, @NonNull String firstName, @NonNull String lastName, @NonNull String gender) {
+        this.familyMemberId = familyMemberId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+    }
 
     public int getFamilyMemberId() {
         return familyMemberId;

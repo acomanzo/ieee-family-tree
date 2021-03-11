@@ -89,7 +89,7 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
                 Person person = (Person) result.get("newPersonKey");
                 //((PersonAdaptor) mAdaptor).add(person);
-                FamilyMember familyMember = new FamilyMember(person.getFirstName(), person.getFirstName(), person.getGender());
+                FamilyMember familyMember = new FamilyMember(person.getFirstName(), person.getLastName(), person.getGender());
                 mFamilyMemberViewModel.insert(familyMember);
             }
         });

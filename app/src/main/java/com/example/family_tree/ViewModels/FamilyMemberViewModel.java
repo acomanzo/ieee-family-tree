@@ -33,6 +33,14 @@ public class FamilyMemberViewModel extends AndroidViewModel {
         mRepository.insertFamilyMember(familyMember);
     }
 
+    public void update(FamilyMember familyMember) {
+        mRepository.updateFamilyMember(familyMember);
+    }
+
+    public void delete(FamilyMember familyMember) {
+        mRepository.deleteFamilyMember(familyMember);
+    }
+
     public FamilyMember getFamilyMemberAtIndex(int position) {
         return mAllFamilyMembers.getValue().get(position);
     }

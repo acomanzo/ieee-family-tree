@@ -82,6 +82,14 @@ public class FamilyTreeRepository {
         new insertFamilyMemberAsyncTask(mFamilyMemberDao).execute(familyMember);
     }
 
+    public void updateFamilyMember(FamilyMember familyMember) {
+        new UpdateFamilyMemberAsyncTask(mFamilyMemberDao).execute(familyMember);
+    }
+
+    public void deleteFamilyMember(FamilyMember familyMember) {
+        new DeleteFamilyMemberAsyncTask(mFamilyMemberDao).execute(familyMember);
+    }
+
     private static class insertFamilyMemberAsyncTask extends AsyncTask<FamilyMember, Void, Void> {
         private FamilyMemberDao mAsyncTaskDao;
 
@@ -92,6 +100,34 @@ public class FamilyTreeRepository {
         @Override
         protected Void doInBackground(final FamilyMember... params) {
             mAsyncTaskDao.insert(params[0]);
+            return null;
+        }
+    }
+
+    private static class UpdateFamilyMemberAsyncTask extends AsyncTask<FamilyMember, Void, Void> {
+        private FamilyMemberDao mAsyncTaskDao;
+
+        UpdateFamilyMemberAsyncTask(FamilyMemberDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final FamilyMember... params) {
+            mAsyncTaskDao.update(params[0]);
+            return null;
+        }
+    }
+
+    private static class DeleteFamilyMemberAsyncTask extends AsyncTask<FamilyMember, Void, Void> {
+        private FamilyMemberDao mAsyncTaskDao;
+
+        DeleteFamilyMemberAsyncTask(FamilyMemberDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final FamilyMember... params) {
+            mAsyncTaskDao.delete(params[0]);
             return null;
         }
     }

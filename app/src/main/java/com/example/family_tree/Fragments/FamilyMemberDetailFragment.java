@@ -43,8 +43,9 @@ public class FamilyMemberDetailFragment extends Fragment {
     private TextInputEditText gender;
     private TextView descendants;
 
-    private Button updateButton;
     private Button addRelativeButton;
+    private Button updateButton;
+    private Button deleteButton;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -116,8 +117,9 @@ public class FamilyMemberDetailFragment extends Fragment {
         gender = view.findViewById(R.id.family_member_detail_gender);
         descendants = view.findViewById(R.id.family_member_detail_descendants);
 
-        updateButton = view.findViewById(R.id.family_member_detail_update_button);
         addRelativeButton = view.findViewById(R.id.family_member_detail_add_relationship_button);
+        updateButton = view.findViewById(R.id.family_member_detail_update_button);
+        deleteButton = view.findViewById(R.id.family_member_detail_delete_button);
 
         mFamilyMemberViewModel = ViewModelProviders.of(getActivity()).get(FamilyMemberViewModel.class);
 
@@ -156,8 +158,13 @@ public class FamilyMemberDetailFragment extends Fragment {
             String updatedZipcode = zipcode.getText().toString();
             String updatedGender = gender.getText().toString();
 
+            int id = familyMember.getFamilyMemberId();
 
+            FamilyMember updatedFamilyMember = new FamilyMember(id, updatedFirstName, updatedLastName, updatedGender);
+            mFamilyMemberViewModel.update(updatedFamilyMember);
         });
+
+        deleteButton.setOnClickListener(v -> mFamilyMemberViewModel.delete(familyMember));
 
 //        addRelativeButton.setOnClickListener(v -> {
 //            int position = getAdapterPosition();
