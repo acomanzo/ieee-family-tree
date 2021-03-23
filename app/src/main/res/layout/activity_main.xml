@@ -19,7 +19,8 @@
             android:queryHint="Search Here"
             android:layout_alignParentTop="true"
             android:elevation="10dp"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            />
 
         <FrameLayout
             android:id="@+id/host_fragment"
