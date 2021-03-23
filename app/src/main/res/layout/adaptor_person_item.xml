@@ -95,12 +95,31 @@
                     android:layout_height="wrap_content"/>
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/gender_text_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Gender">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/person_gender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
             <TextView
                 android:id="@+id/person_descendants"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:layout_marginTop="16dp"/>
+
+            <Button
+                android:id="@+id/update_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Update"
+                android:layout_gravity="center" />
 
             <Button
                 android:id="@+id/add_relationship"
