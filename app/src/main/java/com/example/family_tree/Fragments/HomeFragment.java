@@ -1,6 +1,5 @@
 package com.example.family_tree.Fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,13 +12,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
 
 import com.example.family_tree.Activities.MainActivity;
 import com.example.family_tree.Adaptors.PersonAdaptor;
-import com.example.family_tree.DetailDump;
 import com.example.family_tree.Models.FamilyMember;
 import com.example.family_tree.Adaptors.Person;
 import com.example.family_tree.R;
@@ -93,6 +94,8 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
                 mFamilyMemberViewModel.insert(familyMember);
             }
         });
+
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -140,6 +143,19 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
         searchView.setOnQueryTextListener(this);
 
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.app_top_bar, menu);
+
+        MenuItem searchBar = menu.findItem(R.id.top_bar_search);
+        SearchView searchBarView = (SearchView) searchBar.getActionView();
+        searchBarView.setQueryHint("Enter a name...");
+        searchBarView.setOnQueryTextListener(this);
+
     }
 
     @Override

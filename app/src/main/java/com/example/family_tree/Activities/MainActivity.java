@@ -7,8 +7,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -23,16 +21,12 @@ import android.widget.Toast;
 import com.example.family_tree.Fragments.AddPersonFragment;
 import com.example.family_tree.Fragments.FamilyMemberDetailFragment;
 import com.example.family_tree.Fragments.HomeFragment;
-import com.example.family_tree.Models.FamilyMember;
 import com.example.family_tree.R;
-import com.example.family_tree.ViewModels.FamilyMemberViewModel;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements AddPersonFragment.OnPersonItemAddedListener {
 
@@ -77,12 +71,11 @@ public class MainActivity extends AppCompatActivity implements AddPersonFragment
             public boolean onMenuItemClick(MenuItem item) {
                 Context context = getApplicationContext();
                 switch(item.getItemId()) {
-                    case R.id.menu_search:
+                    case R.id.bottom_bar_profile:
                         // handle search icon press
-                        //Toast.makeText(context, "search", Toast.LENGTH_SHORT).show();
-                        searchView.setVisibility(searchView.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+                        Toast.makeText(context, "profile", Toast.LENGTH_SHORT).show();
                         return true;
-                    case R.id.menu_overflow:
+                    case R.id.bottom_bar_overflow:
                         // handle overflow icon press
                         Toast.makeText(context, "overflow", Toast.LENGTH_SHORT).show();
                         return true;
@@ -105,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements AddPersonFragment
                         fragmentTransaction.replace(R.id.host_fragment, new AddPersonFragment());
                         //bottomAppBar.setNavigationIcon(null);
                         bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_END);
-                        bottomAppBar.replaceMenu(R.menu.app_bar_menu_secondary);
+                        bottomAppBar.replaceMenu(R.menu.app_bottom_bar_menu_secondary);
                         floatingActionButton.setImageResource(R.drawable.ic_baseline_reply_24);
                         currentFragTag = ADD_PERSON_FRAG_TAG;
                         fragmentTransaction.addToBackStack(null);
@@ -114,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements AddPersonFragment
                         fragmentTransaction.replace(R.id.host_fragment, new HomeFragment());
                         bottomAppBar.setNavigationIcon(R.drawable.ic_baseline_menu_24);
                         bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
-                        bottomAppBar.replaceMenu(R.menu.app_bar_menu);
+                        bottomAppBar.replaceMenu(R.menu.app_bottom_bar_menu);
                         floatingActionButton.setImageResource(R.drawable.ic_baseline_add_24);
                         currentFragTag = HOME_FRAG_TAG;
                         fragmentManager.popBackStack();
@@ -140,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements AddPersonFragment
             fragmentTransaction.replace(R.id.host_fragment, addPersonFragment);
             //bottomAppBar.setNavigationIcon(null);
             bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_END);
-            bottomAppBar.replaceMenu(R.menu.app_bar_menu_secondary);
+            bottomAppBar.replaceMenu(R.menu.app_bottom_bar_menu_secondary);
             floatingActionButton.setImageResource(R.drawable.ic_baseline_reply_24);
             currentFragTag = ADD_PERSON_FRAG_TAG;
             fragmentTransaction.addToBackStack(null);
@@ -251,7 +244,7 @@ public class MainActivity extends AppCompatActivity implements AddPersonFragment
                 fragmentTransaction.replace(R.id.host_fragment, new HomeFragment());
                 bottomAppBar.setNavigationIcon(R.drawable.ic_baseline_menu_24);
                 bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
-                bottomAppBar.replaceMenu(R.menu.app_bar_menu);
+                bottomAppBar.replaceMenu(R.menu.app_bottom_bar_menu);
                 floatingActionButton.setImageResource(R.drawable.ic_baseline_add_24);
                 currentFragTag = HOME_FRAG_TAG;
                 break;
