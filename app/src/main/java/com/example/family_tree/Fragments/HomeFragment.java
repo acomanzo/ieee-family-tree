@@ -139,9 +139,6 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
 
         recyclerView.setAdapter(mAdaptor);
 
-        searchView = getActivity().findViewById(R.id.home_search);
-        searchView.setOnQueryTextListener(this);
-
         return view;
     }
 

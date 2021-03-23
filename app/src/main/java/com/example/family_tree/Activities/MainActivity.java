@@ -36,9 +36,6 @@ public class MainActivity extends AppCompatActivity implements AddPersonFragment
     private final String HOME_FRAG_TAG = "homeFragTag";
     private final String ADD_PERSON_FRAG_TAG = "addPersonFragTag";
 
-    private SearchView searchView;
-    private boolean searchViewVisible;
-
     private String currentFragTag;
 
     @Override
@@ -53,9 +50,6 @@ public class MainActivity extends AppCompatActivity implements AddPersonFragment
         // make the home fragment our initial fragment
         getSupportFragmentManager().beginTransaction().add(R.id.host_fragment, new HomeFragment(), HOME_FRAG_TAG).commit();
         currentFragTag = HOME_FRAG_TAG;
-
-        searchViewVisible = false;
-        searchView = findViewById(R.id.home_search);
 
         bottomAppBar = findViewById(R.id.bottomAppBar);
         bottomAppBar.setNavigationOnClickListener(new View.OnClickListener() {
